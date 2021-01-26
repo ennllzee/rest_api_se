@@ -17,8 +17,10 @@ CORS(app)
 async def test(request):
     return text(str(os.getpid()))
 
-def main():
+if __name__ == "__main__":
+    # ssl = {'cert': "cert.pem", 'key': "key.pem"}
     host = "192.168.1.37"
+    # host = "127.0.0.1"
     port = 8000
     try:
         # app.run(host=host, port=port, auto_reload=True, access_log=False)
@@ -27,7 +29,3 @@ def main():
     except (Exception, KeyboardInterrupt, SystemExit) as e:
         print(e)
     app.run(workers=4)
-
-
-if __name__ == "__main__":
-    main()

@@ -13,9 +13,16 @@ class ApiRequset:
     # def getLimitRandomQuestion(self, limit):
     #     cursor = self.__r.table(config.question_table).sample(limit).run()
     #     return [data for data in cursor]
-    
+    '''
+    mode:   0 is new user (open in app)
+            1 is new user (register)
+    '''
     def insertUser(self, data):
-        data['create_date'] = self.__r.now().to_iso8601()
-        return self.__r.table(config.users_table).insert(data).run()
+        data[config.create_date_key] = self.__r.now().to_iso8601()
+        if data.get('mode', None):
+            del data['mode']
+            return self.__r.table(config.users_table).insert(data).run()
+        else:
+            return self.__r.table(config.users_table).insert(data).run()
     
 api = ApiRequset()

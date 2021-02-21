@@ -16,7 +16,7 @@ class ApiRequset:
         return [data for data in cursor]
     
     def insetQuestion(self, data):
-        data['create_date'] = self.__r.now().to_iso8601()
+        data[config.create_date_key] = self.__r.now().to_iso8601()
         return self.__r.table(config.question_table).insert(data).run()
     
 api = ApiRequset()

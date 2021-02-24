@@ -14,5 +14,14 @@ async def users(request):
         res = {}
         return json({config.response_key: res})
     elif request.method == "POST":
-        res = api.insertUser(request.json)
+        res = api.insert_user(request.json)
         return json({config.response_key: res})
+    
+@bp_users.route('/rank', methods=["GET"])
+async def rank(request):
+    params = request.args
+    if params.get('k', None):
+        res = api.get_rank(int(params['k'][0]))
+    else:
+        res = api.get_rank(10)
+    return json({config.response_key: res})

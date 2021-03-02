@@ -12,6 +12,7 @@ class ApiRequset:
     #     return [data for data in cursor]
     
     def getAllHistoryGroupTime(self, userId):
+        question_cursor = {d['id']: d['question'] for d in self.__r.table(config.question_table).pluck(['id', 'question']).run()}
         cursor = self.__r.table(config.history_table)\
             .filter({'userId': userId})\
             .group(lambda history: history[config.create_date_key][:10])\
@@ -19,8 +20,9 @@ class ApiRequset:
             .ungroup()\
             .order_by(self.__r.desc('group'))\
             .run()
-        # print([print(i) for i in cursor])
-        return {group['group']: group['reduction'] for group in cursor}
+        # print([print(f'{i}: {v}') for i, v in enumerate(cursor)])
+        # print({group['group']: [{**red, **{'question': question_cursor[red['questionId']]}} for red in group['reduction']] for group in cursor})
+        return {group['group']: [{**red, **{'question': question_cursor[red['questionId']]}} for red in group['reduction']] for group in cursor}
     
     
     def insertHistory(self, data):

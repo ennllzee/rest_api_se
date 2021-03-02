@@ -20,8 +20,6 @@ class ApiRequset:
             .ungroup()\
             .order_by(self.__r.desc('group'))\
             .run()
-        # print([print(f'{i}: {v}') for i, v in enumerate(cursor)])
-        # print({group['group']: [{**red, **{'question': question_cursor[red['questionId']]}} for red in group['reduction']] for group in cursor})
         return {group['group']: [{**red, **{'question': question_cursor[red['questionId']]}} for red in group['reduction']] for group in cursor}
     
     

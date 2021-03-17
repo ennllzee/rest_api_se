@@ -26,3 +26,8 @@ async def rank(request):
     else:
         res = api.get_rank(10, headers.get('username', headers.get('userId', '')))
     return json({config.response_key: res})
+
+@bp_users.route('/login', methods=["GET"])
+async def login(request):
+    res = api.get_user(request.json)
+    return json({config.response_key: res})

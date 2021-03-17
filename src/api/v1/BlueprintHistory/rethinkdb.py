@@ -24,10 +24,6 @@ class ApiRequset:
     
     
     def insertHistory(self, data):
-        '''
-        mode:   0 is new user (open in app)
-                1 is new user (register)
-        '''
         data[config.create_date_key] = self.__r.now().to_iso8601()
         return self.__r.table(config.history_table).insert(data).run()
     

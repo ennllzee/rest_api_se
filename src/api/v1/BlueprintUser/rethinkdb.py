@@ -22,8 +22,12 @@ class ApiRequset:
         data[config.create_date_key] = self.__r.now().to_iso8601()
         if data.get('mode', None):
             del data['mode']
-            return self.__r.table(config.users_table).insert(data).run()
+            id = data['userId']
+            del data['userId']
+            return self.__r.table(config.users_table).filter({'id': id}).update(data).run()
         else:
+            if data.get('mode', None) == 0:
+                del data['mode']
             return self.__r.table(config.users_table).insert(data).run()
     
     def is_correct_choice(self, choice, select_choice):

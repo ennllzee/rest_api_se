@@ -66,7 +66,13 @@ class ApiRequset:
             sorted_dict.append(search_item)
         return sorted_dict
         
-        
+        def get_user(self, data):
+        username = data['username']
+        password = data['password']
+        if bool(self.__r.table(config.users_table).filter({'username': username}).filter({'password': password}).run()): # พยายาม check ว่ามี username ที่มี password แบบนี้ใน user table หรือเปล่า
+            return self.__r.table(config.users_table).filter({'username': username}).filter({'password': password}).run()
+        else:
+            return "error" # แจ้ง error
         
     
 api = ApiRequset()
